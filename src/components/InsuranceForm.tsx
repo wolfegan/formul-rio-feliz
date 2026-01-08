@@ -67,8 +67,8 @@ export default function InsuranceForm() {
     modelo: "",
     placa: "",
   });
-  const [selectedPlanos, setSelectedPlanos] = useState<string[]>([]);
-  const [selectedParceiras, setSelectedParceiras] = useState<string[]>([]);
+  const [selectedPlano, setSelectedPlano] = useState<string | null>(null);
+  const [selectedParceira, setSelectedParceira] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -76,34 +76,32 @@ export default function InsuranceForm() {
   };
 
   const handlePlanoToggle = (planoId: string) => {
-    const newSelected = selectedPlanos.includes(planoId)
-      ? selectedPlanos.filter(p => p !== planoId)
-      : [...selectedPlanos, planoId];
-    
-    setSelectedPlanos(newSelected);
-    
-    // Limpar parceiras se nenhum plano com parceiras estiver selecionado
-    const hasPlanoWithParceiras = newSelected.some(
-      id => id === "hbs_select" || id === "hbs_economic"
-    );
-    if (!hasPlanoWithParceiras) {
-      setSelectedParceiras([]);
+    if (selectedPlano === planoId) {
+      // Desmarcar se clicar no mesmo
+      setSelectedPlano(null);
+      setSelectedParceira(null);
+    } else {
+      setSelectedPlano(planoId);
+      // Limpar parceira se o novo plano não tiver parceiras
+      if (planoId !== "hbs_select" && planoId !== "hbs_economic") {
+        setSelectedParceira(null);
+      }
     }
   };
 
   const handleParceiraToggle = (parceira: string) => {
-    setSelectedParceiras(prev =>
-      prev.includes(parceira)
-        ? prev.filter(p => p !== parceira)
-        : [...prev, parceira]
-    );
+    if (selectedParceira === parceira) {
+      setSelectedParceira(null);
+    } else {
+      setSelectedParceira(parceira);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (selectedPlanos.length === 0) {
-      toast.error("Por favor, selecione pelo menos um plano");
+    if (!selectedPlano) {
+      toast.error("Por favor, selecione um plano");
       return;
     }
 
@@ -123,8 +121,8 @@ export default function InsuranceForm() {
         marca: formData.marca.trim(),
         modelo: formData.modelo.trim(),
         placa: formData.placa.trim().toUpperCase(),
-        plano_selecionado: selectedPlanos.join(", "),
-        parceiras_selecionadas: selectedParceiras,
+        plano_selecionado: selectedPlano || "",
+        parceiras_selecionadas: selectedParceira ? [selectedParceira] : [],
       });
 
       if (error) throw error;
@@ -138,9 +136,7 @@ export default function InsuranceForm() {
     }
   };
 
-  const showParceiras = selectedPlanos.some(
-    id => id === "hbs_select" || id === "hbs_economic"
-  );
+  const showParceiras = selectedPlano === "hbs_select" || selectedPlano === "hbs_economic";
 
   return (
     <div className="min-h-screen bg-background">
@@ -280,7 +276,7 @@ export default function InsuranceForm() {
                   <div key={plano.id} className="space-y-3">
                     <div 
                       className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                        selectedPlanos.includes(plano.id) 
+                        selectedPlano === plano.id 
                           ? "border-primary bg-primary/5 shadow-glow" 
                           : "border-border hover:border-primary/50 bg-card"
                       }`}
@@ -288,13 +284,13 @@ export default function InsuranceForm() {
                     >
                       <div className="flex items-start gap-3">
                         <div 
-                          className={`mt-1 h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors ${
-                            selectedPlanos.includes(plano.id)
-                              ? "bg-primary border-primary text-primary-foreground"
-                              : "border-primary"
+                          className={`mt-1 h-4 w-4 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors ${
+                            selectedPlano === plano.id
+                              ? "border-primary"
+                              : "border-muted-foreground/50"
                           }`}
                         >
-                          {selectedPlanos.includes(plano.id) && <Check className="h-3 w-3" />}
+                          {selectedPlano === plano.id && <div className="h-2 w-2 rounded-full bg-primary" />}
                         </div>
                         <div className="flex-1">
                           <h4 className="font-semibold text-foreground">
@@ -323,10 +319,10 @@ export default function InsuranceForm() {
                     </div>
 
                     {/* Parceiras Selection for HBS Select and Economic */}
-                    {selectedPlanos.includes(plano.id) && plano.showParceiras && (
+                    {selectedPlano === plano.id && plano.showParceiras && (
                       <div className="ml-6 p-4 bg-muted/30 rounded-lg border border-border/30 animate-scale-in">
                         <p className="text-xs text-muted-foreground mb-3">
-                          Selecione as parceiras desejadas:
+                          Selecione a parceira desejada:
                         </p>
                         <div className="flex flex-wrap gap-2">
                           {PARCEIRAS.map(parceira => (
@@ -334,20 +330,20 @@ export default function InsuranceForm() {
                               type="button"
                               key={parceira}
                               onClick={() => handleParceiraToggle(parceira)}
-                              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs cursor-pointer transition-all ${
-                                selectedParceiras.includes(parceira)
+                              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs cursor-pointer transition-all ${
+                                selectedParceira === parceira
                                   ? "bg-primary text-primary-foreground"
                                   : "bg-card border border-border hover:border-primary/50"
                               }`}
                             >
                               <div 
-                                className={`h-3 w-3 shrink-0 rounded-sm border flex items-center justify-center ${
-                                  selectedParceiras.includes(parceira)
-                                    ? "bg-primary-foreground border-primary-foreground text-primary"
+                                className={`h-3 w-3 shrink-0 rounded-full border flex items-center justify-center ${
+                                  selectedParceira === parceira
+                                    ? "border-primary-foreground"
                                     : "border-current"
                                 }`}
                               >
-                                {selectedParceiras.includes(parceira) && <Check className="h-2 w-2" />}
+                                {selectedParceira === parceira && <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />}
                               </div>
                               {parceira}
                             </button>
