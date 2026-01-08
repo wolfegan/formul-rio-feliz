@@ -77,21 +77,19 @@ export default function InsuranceForm() {
   };
 
   const handlePlanoToggle = (planoId: string) => {
-    setSelectedPlanos(prev => {
-      const newSelected = prev.includes(planoId)
-        ? prev.filter(p => p !== planoId)
-        : [...prev, planoId];
-      
-      // Limpar parceiras se nenhum plano com parceiras estiver selecionado
-      const hasPlanoWithParceiras = newSelected.some(
-        id => id === "hbs_select" || id === "hbs_economic"
-      );
-      if (!hasPlanoWithParceiras) {
-        setSelectedParceiras([]);
-      }
-      
-      return newSelected;
-    });
+    const newSelected = selectedPlanos.includes(planoId)
+      ? selectedPlanos.filter(p => p !== planoId)
+      : [...selectedPlanos, planoId];
+    
+    setSelectedPlanos(newSelected);
+    
+    // Limpar parceiras se nenhum plano com parceiras estiver selecionado
+    const hasPlanoWithParceiras = newSelected.some(
+      id => id === "hbs_select" || id === "hbs_economic"
+    );
+    if (!hasPlanoWithParceiras) {
+      setSelectedParceiras([]);
+    }
   };
 
   const handleParceiraToggle = (parceira: string) => {
