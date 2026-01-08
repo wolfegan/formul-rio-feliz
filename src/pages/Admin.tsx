@@ -13,6 +13,7 @@ import {
   Filter,
   Calendar,
   Car,
+  Trash2,
 } from "lucide-react";
 import logo from "@/assets/logo.webp";
 
@@ -178,6 +179,25 @@ export default function Admin() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/login");
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Tem certeza que deseja excluir esta simulação?")) return;
+    
+    try {
+      const { error } = await supabase
+        .from("insurance_simulations")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+
+      setSimulations((prev) => prev.filter((s) => s.id !== id));
+      toast.success("Simulação excluída com sucesso");
+    } catch (error) {
+      console.error("Erro ao excluir:", error);
+      toast.error("Erro ao excluir simulação");
+    }
   };
 
   const formatDate = (date: string) => {
@@ -412,6 +432,7 @@ export default function Admin() {
                   <th className="text-left p-4 text-sm font-medium text-muted-foreground">Placa</th>
                   <th className="text-left p-4 text-sm font-medium text-muted-foreground">Plano</th>
                   <th className="text-left p-4 text-sm font-medium text-muted-foreground">Parceira</th>
+                  <th className="text-center p-4 text-sm font-medium text-muted-foreground">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -432,11 +453,21 @@ export default function Admin() {
                     <td className="p-4 text-sm">
                       {simulation.parceiras_selecionadas?.join(", ") || "—"}
                     </td>
+                    <td className="p-4 text-center">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(simulation.id)}
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </td>
                   </tr>
                 ))}
                 {filteredSimulations.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={8} className="p-8 text-center text-muted-foreground">
                       Nenhuma simulação encontrada
                     </td>
                   </tr>
