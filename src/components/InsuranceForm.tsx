@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Car, User, Phone, Calendar, Tag, CreditCard } from "lucide-react";
+import { Car, User, Phone, Calendar, Tag, CreditCard, Check } from "lucide-react";
 import logo from "@/assets/logo.webp";
 
 const PARCEIRAS = [
@@ -288,12 +287,15 @@ export default function InsuranceForm() {
                       onClick={() => handlePlanoToggle(plano.id)}
                     >
                       <div className="flex items-start gap-3">
-                        <Checkbox
-                          id={plano.id}
-                          checked={selectedPlanos.includes(plano.id)}
-                          onCheckedChange={() => handlePlanoToggle(plano.id)}
-                          className="mt-1"
-                        />
+                        <div 
+                          className={`mt-1 h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors ${
+                            selectedPlanos.includes(plano.id)
+                              ? "bg-primary border-primary text-primary-foreground"
+                              : "border-primary"
+                          }`}
+                        >
+                          {selectedPlanos.includes(plano.id) && <Check className="h-3 w-3" />}
+                        </div>
                         <div className="flex-1">
                           <h4 className="font-semibold text-foreground">
                             {index + 1}. {plano.nome}
@@ -328,21 +330,27 @@ export default function InsuranceForm() {
                         </p>
                         <div className="flex flex-wrap gap-2">
                           {PARCEIRAS.map(parceira => (
-                            <label
+                            <button
+                              type="button"
                               key={parceira}
+                              onClick={() => handleParceiraToggle(parceira)}
                               className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs cursor-pointer transition-all ${
                                 selectedParceiras.includes(parceira)
                                   ? "bg-primary text-primary-foreground"
                                   : "bg-card border border-border hover:border-primary/50"
                               }`}
                             >
-                              <Checkbox
-                                checked={selectedParceiras.includes(parceira)}
-                                onCheckedChange={() => handleParceiraToggle(parceira)}
-                                className="h-3 w-3"
-                              />
+                              <div 
+                                className={`h-3 w-3 shrink-0 rounded-sm border flex items-center justify-center ${
+                                  selectedParceiras.includes(parceira)
+                                    ? "bg-primary-foreground border-primary-foreground text-primary"
+                                    : "border-current"
+                                }`}
+                              >
+                                {selectedParceiras.includes(parceira) && <Check className="h-2 w-2" />}
+                              </div>
                               {parceira}
-                            </label>
+                            </button>
                           ))}
                         </div>
                       </div>
