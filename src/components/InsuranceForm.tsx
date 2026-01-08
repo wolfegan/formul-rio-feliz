@@ -68,7 +68,7 @@ export default function InsuranceForm() {
     modelo: "",
     placa: "",
   });
-  const [selectedPlano, setSelectedPlano] = useState<string | null>(null);
+  const [selectedPlanos, setSelectedPlanos] = useState<string[]>([]);
   const [selectedParceiras, setSelectedParceiras] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +76,22 @@ export default function InsuranceForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePlanoChange = (planoId: string) => {
-    setSelectedPlano(planoId);
-    if (planoId !== "hbs_select" && planoId !== "hbs_economic") {
-      setSelectedParceiras([]);
-    }
+  const handlePlanoToggle = (planoId: string) => {
+    setSelectedPlanos(prev => {
+      const newSelected = prev.includes(planoId)
+        ? prev.filter(p => p !== planoId)
+        : [...prev, planoId];
+      
+      // Limpar parceiras se nenhum plano com parceiras estiver selecionado
+      const hasPlanoWithParceiras = newSelected.some(
+        id => id === "hbs_select" || id === "hbs_economic"
+      );
+      if (!hasPlanoWithParceiras) {
+        setSelectedParceiras([]);
+      }
+      
+      return newSelected;
+    });
   };
 
   const handleParceiraToggle = (parceira: string) => {
@@ -94,8 +105,8 @@ export default function InsuranceForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!selectedPlano) {
-      toast.error("Por favor, selecione um plano");
+    if (selectedPlanos.length === 0) {
+      toast.error("Por favor, selecione pelo menos um plano");
       return;
     }
 
@@ -115,7 +126,7 @@ export default function InsuranceForm() {
         marca: formData.marca.trim(),
         modelo: formData.modelo.trim(),
         placa: formData.placa.trim().toUpperCase(),
-        plano_selecionado: selectedPlano,
+        plano_selecionado: selectedPlanos.join(", "),
         parceiras_selecionadas: selectedParceiras,
       });
 
@@ -130,8 +141,9 @@ export default function InsuranceForm() {
     }
   };
 
-  const currentPlano = PLANOS.find(p => p.id === selectedPlano);
-  const showParceiras = currentPlano?.showParceiras;
+  const showParceiras = selectedPlanos.some(
+    id => id === "hbs_select" || id === "hbs_economic"
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -271,17 +283,17 @@ export default function InsuranceForm() {
                   <div key={plano.id} className="space-y-3">
                     <div 
                       className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                        selectedPlano === plano.id 
+                        selectedPlanos.includes(plano.id) 
                           ? "border-primary bg-primary/5 shadow-glow" 
                           : "border-border hover:border-primary/50 bg-card"
                       }`}
-                      onClick={() => handlePlanoChange(plano.id)}
+                      onClick={() => handlePlanoToggle(plano.id)}
                     >
                       <div className="flex items-start gap-3">
                         <Checkbox
                           id={plano.id}
-                          checked={selectedPlano === plano.id}
-                          onCheckedChange={() => handlePlanoChange(plano.id)}
+                          checked={selectedPlanos.includes(plano.id)}
+                          onCheckedChange={() => handlePlanoToggle(plano.id)}
                           className="mt-1"
                         />
                         <div className="flex-1">
@@ -311,7 +323,7 @@ export default function InsuranceForm() {
                     </div>
 
                     {/* Parceiras Selection for HBS Select and Economic */}
-                    {selectedPlano === plano.id && showParceiras && (
+                    {selectedPlanos.includes(plano.id) && plano.showParceiras && (
                       <div className="ml-6 p-4 bg-muted/30 rounded-lg border border-border/30 animate-scale-in">
                         <p className="text-xs text-muted-foreground mb-3">
                           Selecione as parceiras desejadas:
