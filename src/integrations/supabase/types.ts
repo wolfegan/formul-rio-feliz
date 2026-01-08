@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      insurance_simulations: {
+        Row: {
+          ano: string
+          contato: string
+          created_at: string
+          id: string
+          marca: string
+          modelo: string
+          nome: string
+          parceiras_selecionadas: string[] | null
+          placa: string
+          plano_selecionado: string
+        }
+        Insert: {
+          ano: string
+          contato: string
+          created_at?: string
+          id?: string
+          marca: string
+          modelo: string
+          nome: string
+          parceiras_selecionadas?: string[] | null
+          placa: string
+          plano_selecionado: string
+        }
+        Update: {
+          ano?: string
+          contato?: string
+          created_at?: string
+          id?: string
+          marca?: string
+          modelo?: string
+          nome?: string
+          parceiras_selecionadas?: string[] | null
+          placa?: string
+          plano_selecionado?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
