@@ -141,9 +141,9 @@ export default function InsuranceForm() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-r from-secondary to-secondary/90 py-4 px-6">
-        <div className="max-w-2xl mx-auto flex justify-end">
-          <img src={logo} alt="SafeClub" className="h-12 object-contain" />
+      <header className="bg-primary py-6 px-6">
+        <div className="max-w-2xl mx-auto flex justify-center">
+          <img src={logo} alt="SafeClub" className="h-14 object-contain" />
         </div>
       </header>
 
