@@ -170,7 +170,7 @@ export default function InsuranceForm() {
                   name="nome"
                   value={formData.nome}
                   onChange={handleInputChange}
-                  placeholder="Digite seu nome completo"
+                  placeholder="Nome completo"
                   required
                 />
               </div>
@@ -185,7 +185,7 @@ export default function InsuranceForm() {
                   name="contato"
                   value={formData.contato}
                   onChange={handleInputChange}
-                  placeholder="(00) 00000-0000"
+                  placeholder="Telefone ou WhatsApp"
                   required
                 />
               </div>
@@ -203,7 +203,7 @@ export default function InsuranceForm() {
                   name="ano"
                   value={formData.ano}
                   onChange={handleInputChange}
-                  placeholder="2024"
+                  placeholder="Ano do veículo"
                   required
                 />
               </div>
@@ -218,7 +218,7 @@ export default function InsuranceForm() {
                   name="marca"
                   value={formData.marca}
                   onChange={handleInputChange}
-                  placeholder="Volkswagen"
+                  placeholder="Marca do veículo"
                   required
                 />
               </div>
@@ -233,7 +233,7 @@ export default function InsuranceForm() {
                   name="modelo"
                   value={formData.modelo}
                   onChange={handleInputChange}
-                  placeholder="Gol"
+                  placeholder="Modelo do veículo"
                   required
                 />
               </div>
@@ -248,7 +248,7 @@ export default function InsuranceForm() {
                   name="placa"
                   value={formData.placa}
                   onChange={handleInputChange}
-                  placeholder="ABC-1234"
+                  placeholder="Placa do veículo"
                   className="uppercase"
                   required
                 />
