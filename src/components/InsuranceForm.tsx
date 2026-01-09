@@ -53,6 +53,20 @@ const PLANOS = [
     taxa: "",
     mensalidade: "",
     descricao: "Apólice de seguro para cobertura de roubo e furto com cortesia de 50% de guincho, vidros, terceiro e colisão"
+  },
+  {
+    id: "assistencar",
+    nome: "AssistenCar",
+    taxa: "",
+    mensalidade: "R$ 43,99",
+    descricao: "Guincho, vidros, serviço funilaria e pintura com terceiro."
+  },
+  {
+    id: "assistencar_rastreio",
+    nome: "AssistenCar com rastreio",
+    taxa: "",
+    mensalidade: "R$ 76,99",
+    descricao: "Guincho, vidros, serviços funilaria, pintura com terceiros e rastreamento"
   }
 ];
 
@@ -153,7 +167,7 @@ export default function InsuranceForm() {
           {/* Intro Text */}
           <p className="text-foreground/80 text-sm md:text-base mb-8 leading-relaxed">
             Uma forma clara e prática para você decidir o seu seguro observando uma simulação 
-            com as <strong>5 opções que temos</strong>. Preencha o formulário e em seguida escolha o plano que 
+            com as <strong>7 opções que temos</strong>. Preencha o formulário e em seguida escolha o plano que 
             mais se adeque ao seu perfil:
           </p>
 
