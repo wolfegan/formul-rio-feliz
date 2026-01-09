@@ -261,12 +261,12 @@ export default function InsuranceForm() {
                 Com base nas opções da simulação à seguir
               </h3>
 
-              {/* Client Info Box - Dados do usuário */}
+              {/* Client Info Box - Exemplo Fixo */}
               <div className="bg-muted/50 rounded-lg p-4 mb-6 border border-border/50">
                 <p className="text-sm">
-                  <span className="font-medium">Cliente:</span> {formData.nome || "—"}<br />
-                  <span className="font-medium">Veículo:</span> {formData.marca || "—"} {formData.modelo}<br />
-                  <span className="font-medium">Ano:</span> {formData.ano || "—"}
+                  <span className="font-medium">Cliente:</span> Arlene Alves<br />
+                  <span className="font-medium">Veículo:</span> Volkswagen Gol<br />
+                  <span className="font-medium">Valor FIPE:</span> R$ 40.000,00
                 </p>
               </div>
 
