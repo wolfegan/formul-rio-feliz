@@ -57,14 +57,14 @@ const PLANOS = [
   {
     id: "assistencar",
     nome: "AssistenCar",
-    taxa: "",
+    taxa: "R$ 350,00",
     mensalidade: "R$ 43,99",
     descricao: "Guincho, vidros, serviço funilaria e pintura com terceiro."
   },
   {
     id: "assistencar_rastreio",
     nome: "AssistenCar com rastreio",
-    taxa: "",
+    taxa: "R$ 350,00",
     mensalidade: "R$ 76,99",
     descricao: "Guincho, vidros, serviços funilaria, pintura com terceiros e rastreamento"
   }
