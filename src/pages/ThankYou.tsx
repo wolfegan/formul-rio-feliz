@@ -7,17 +7,6 @@ export default function ThankYou() {
   const location = useLocation();
   const formData = location.state || {};
 
-  // Exemplo de dados se não houver dados reais
-  const exampleData = {
-    nome: "Arlene Alves",
-    marca: "Volkswagen",
-    modelo: "Gol",
-    valorFipe: "R$ 40.000,00"
-  };
-
-  const displayData = formData.nome ? formData : exampleData;
-  const isExample = !formData.nome;
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -51,29 +40,29 @@ export default function ThankYou() {
           {/* Simulation Summary Card */}
           <div className="bg-muted/50 rounded-xl p-6 mb-8 text-left border border-border">
             <h2 className="text-sm font-semibold text-center text-muted-foreground mb-4">
-              {isExample ? "Exemplo de simulação" : "Com base nas opções da simulação a seguir"}
+              Resumo da sua simulação
             </h2>
             
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <User className="w-4 h-4 text-primary" />
                 <span className="text-sm text-muted-foreground">Cliente:</span>
-                <span className="text-sm font-medium text-foreground">{displayData.nome}</span>
+                <span className="text-sm font-medium text-foreground">{formData.nome}</span>
               </div>
               
               <div className="flex items-center gap-3">
                 <Car className="w-4 h-4 text-primary" />
                 <span className="text-sm text-muted-foreground">Veículo:</span>
                 <span className="text-sm font-medium text-foreground">
-                  {displayData.marca} {displayData.modelo}
+                  {formData.marca} {formData.modelo}
                 </span>
               </div>
               
               <div className="flex items-center gap-3">
                 <DollarSign className="w-4 h-4 text-primary" />
-                <span className="text-sm text-muted-foreground">Valor FIPE:</span>
+                <span className="text-sm text-muted-foreground">Plano:</span>
                 <span className="text-sm font-medium text-foreground">
-                  {displayData.valorFipe || "R$ 40.000,00"}
+                  {formData.plano_selecionado}
                 </span>
               </div>
             </div>
