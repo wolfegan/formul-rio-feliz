@@ -1,11 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
-import { CheckCircle, ArrowLeft, User, Car, DollarSign } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import logo from "@/assets/logo.webp";
 
 export default function ThankYou() {
-  const location = useLocation();
-  const formData = location.state || {};
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,45 +32,6 @@ export default function ThankYou() {
             Sua simulação foi enviada com sucesso! Nossa equipe entrará em contato 
             em breve para apresentar as melhores opções para você.
           </p>
-
-          {/* Simulation Summary Card */}
-          <div className="bg-muted/50 rounded-xl p-6 mb-8 text-left border border-border">
-            <h2 className="text-sm font-semibold text-center text-muted-foreground mb-4">
-              Resumo da sua simulação
-            </h2>
-            
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <User className="w-4 h-4 text-primary" />
-                <span className="text-sm text-muted-foreground">Cliente:</span>
-                <span className="text-sm font-medium text-foreground">{formData.nome}</span>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <Car className="w-4 h-4 text-primary" />
-                <span className="text-sm text-muted-foreground">Veículo:</span>
-                <span className="text-sm font-medium text-foreground">
-                  {formData.marca} {formData.modelo}
-                </span>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <DollarSign className="w-4 h-4 text-primary" />
-                <span className="text-sm text-muted-foreground">Plano:</span>
-                <span className="text-sm font-medium text-foreground">
-                  {formData.plano_selecionado}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <Link to="/">
-            <Button variant="outline" size="lg" className="gap-2">
-              <ArrowLeft className="w-4 h-4" />
-              Voltar ao início
-            </Button>
-          </Link>
 
           {/* Contact Info */}
           <div className="mt-8 pt-6 border-t border-border">
