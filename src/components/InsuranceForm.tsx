@@ -11,7 +11,7 @@ import logo from "@/assets/logo.webp";
 const PARCEIRAS = [
   "Abrantes", "Baypro", "Protecar", "Fipe Brasil", "FCK", "Apvs", "Protege",
   "Gol plus", "Cooperfacil", "Lifekar", "Progresso", "Martolli", "Cooperbras",
-  "Apotericorn", "AGV", "Federal car", "Aprovat", "Qualyclub", "Marcla",
+  "Aprotarecon", "AGV", "Federal car", "Aprovat", "Qualyclub", "Marcla",
   "Defender", "Antena", "Moove", "Proter bem"
 ];
 
